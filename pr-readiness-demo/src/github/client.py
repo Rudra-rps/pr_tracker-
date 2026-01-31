@@ -30,3 +30,7 @@ class GitHubClient:
             raise RuntimeError(f"GitHub API error: {r.status_code}")
 
         return r.json()
+
+    def get_pr_head_sha(self, owner, repo, number):
+       pr = self.get_pull_request(owner, repo, number)
+       return pr["head"]["sha"]
