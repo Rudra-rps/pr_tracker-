@@ -35,4 +35,24 @@ class GitHubClient:
        pr = self.get_pull_request(owner, repo, number)
        return pr["head"]["sha"]
     
+    def get_check_runs(self, owner, repo, sha):
+        url = f"https://api.github.com/repos/{owner}/{repo}/commits/{sha}/check-runs"
+        r = self.session.get(url)
+
+        if not r.ok:
+            raise RuntimeError("Failed to fetch check runs")
+        
+        return r.json().get("check_runs", [])
+    
+    def get_commit_statuses(self, owner, repo, sha):
+        url = f"https://api.github.com/repos/{owner}/{repo}/commits/{sha}/statuses"
+        r = self.session.get(url)
+
+        if not r.ok:
+            raise RuntimeError("Failed to fetch commit statuses")
+        
+        return r.json()
+    
+
+    
     
