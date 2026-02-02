@@ -53,6 +53,15 @@ class GitHubClient:
         
         return r.json()
     
+    def get_pr_commits(self, owner, repo, number):
+        """Fetch all commits from the PR"""
+        url = f"{GITHUB_API}/repos/{owner}/{repo}/pulls/{number}/commits"
+        r = self.session.get(url)
+
+        if not r.ok:
+            raise RuntimeError(f"Failed to fetch PR commits: {r.status_code}")
+        
+        return r.json()
 
     
     

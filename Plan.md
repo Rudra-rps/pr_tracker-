@@ -1,44 +1,46 @@
 Pre-GSoC Mini Demo Roadmap
 
-Project E — PR Readiness Tracker
+**CI Reliability & Flakiness Analytics**  
+*Complementary to Project E — PR Readiness Dashboard*
 
-Objective
+## Objective
 
-Develop a minimal but functional PR Readiness Tracker that ingests a GitHub Pull Request and deterministically reports whether it is READY, ACTION_REQUIRED, or CI_FAILING based on CI state and unresolved review feedback.
+Develop a minimal but functional **CI Reliability Analytics prototype** that ingests GitHub Pull Requests and analyzes CI signal patterns to detect flaky checks, stability trends, and confidence scoring.
 
-This prototype validates feasibility, scope control, and execution capability ahead of the full 350-hour project.
+**Positioning:** This project complements Project E by focusing on "Can we trust these CI signals?" rather than "Is the PR ready to merge?" — providing orthogonal value without scope overlap.
 
-Overall Scope of Mini Demo
-Included
+This prototype validates feasibility, scope control, and execution capability ahead of the full 350-hour GSoC project.
 
-Public GitHub Pull Requests
+## Overall Scope of Mini Demo
 
-CI aggregation (Check Runs + Commit Statuses)
+### Included
 
-Review comment and thread resolution tracking
+- Public GitHub Pull Requests
+- CI aggregation (Check Runs + Commit Statuses)
+- Historical CI pattern tracking (across multiple PR runs)
+- Flakiness detection heuristics (pass/fail inconsistency)
+- CI confidence scoring per check/workflow
+- Deterministic, explainable analysis
+- CLI-based interface (lightweight, reproducible)
 
-Deterministic readiness classification
+### Explicitly Out of Scope
 
-CLI-based interface (lightweight, reproducible)
+- Private repositories
+- Machine learning or LLMs
+- Automated blocking or enforcement
+- Security scanning or CVE detection
+- Authentication beyond a GitHub PAT
+- Review comment analysis (that's Project E's domain)
+- Merge readiness decisions (that's Project E's domain)
 
-Explicitly Out of Scope
+## CI Reliability Analysis Model
 
-Private repositories
-
-Machine learning or LLMs
-
-Automated blocking or enforcement
-
-Security scanning or CVE detection
-
-Authentication beyond a GitHub PAT
-
-Readiness Classification Model
-Condition	Result
-Any CI signal failing	CI_FAILING
-CI passing + unresolved actionable review threads	ACTION_REQUIRED
-CI passing + no unresolved actionable threads	READY
-No CI signals	NO_CI (reported but not READY)
+| CI Pattern | Confidence Score | Interpretation |
+|------------|------------------|----------------|
+| Consistent pass (5+ runs) | HIGH | Reliable signal |
+| Flaky (alternating pass/fail) | LOW | Investigate test |
+| Consistent fail | MEDIUM | Likely real issue |
+| No historical data | UNKNOWN | Insufficient data |
 
 All decisions are deterministic and explainable.
 
@@ -83,78 +85,72 @@ Single deterministic CI state derived from all CI providers
 
 Forms first major input to readiness decision
 
-Day 3 — Review Comment & Thread Analysis
+Day 3 — Historical CI Pattern Analysis
 
 Steps
 
-Fetch all PR review comments and threads
+Fetch commit history for the PR's branch
 
-Group comments by thread
+Retrieve CI status for each historical commit
 
-Identify resolved vs unresolved threads
+Track pass/fail patterns per CI check name
 
-Ignore comments authored by PR owner
+Detect flakiness (alternating outcomes)
 
-Count unresolved reviewer threads as actionable feedback
+Calculate stability metrics per check
 
 Heuristics
 
-Resolved threads → ignored
-
-Unresolved reviewer comments → actionable
-
-No NLP or sentiment inference
+- Same check name, different outcomes → flaky
+- 3+ consecutive passes → stable
+- No failures in 10+ runs → high confidence
+- No NLP or ML inference
 
 Outcome
 
-Clear count of unresolved actionable review feedback
+CI reliability metrics per check
 
-Second core input to readiness decision
+Foundation for flakiness detection
 
-Day 4 — Readiness Decision Engine
+Day 4 — CI Confidence Scoring Engine
 
 Steps
 
-Implement deterministic readiness rules
-
-Combine CI state and review analysis
-
-Generate final readiness label
-
-Produce structured explanation for decision
+- Implement deterministic confidence scoring
+- Classify checks: RELIABLE, FLAKY, UNSTABLE, UNKNOWN
+- Generate stability score (0-100)
+- Produce structured explanation for classification
 
 Example Output
 
+```json
 {
-  "ci_state": "PASS",
-  "unresolved_threads": 1,
-  "readiness": "ACTION_REQUIRED"
+  "check_name": "pytest",
+  "current_status": "PASS",
+  "confidence_score": 65,
+  "classification": "FLAKY",
+  "reason": "Failed 3/10 recent runs with same code"
 }
-
+```
 
 Outcome
 
-Transparent, explainable readiness classification
-
-Mirrors intended Project E behavior
+- Transparent, explainable CI reliability insights
+- Advisory data for merge decisions
 
 Day 5 — CLI Output & UX Stabilization
 
 Steps
 
-Enhance CLI output formatting
-
-Display CI summary, review summary, and final readiness
-
-Add usage instructions and examples
-
-Validate behavior on multiple public PRs
+- Enhance CLI output formatting
+- Display CI summary, confidence scores, and flakiness warnings
+- Add usage instructions and examples
+- Validate behavior on multiple public PRs
 
 Outcome
 
-Reproducible, demo-ready CLI tool
-
-Easy for mentors to test locally
+- Reproducible, demo-ready CLI tool
+- Easy for mentors to test locally
 
 Day 6 — Edge-Case Handling & Hardening
 
@@ -194,29 +190,31 @@ Polished prototype suitable for proposal review
 
 Clear upgrade path into full GSoC project
 
-Deliverables Summary
+## Deliverables Summary
 
-GitHub repository with working prototype
+- GitHub repository with working prototype
+- Deterministic CI reliability analysis pipeline
+- Clear documentation and scope boundaries
+- Live demo that mentors can reproduce
 
-Deterministic PR readiness pipeline
-
-Clear documentation and scope boundaries
-
-Live demo that mentors can reproduce
-
-How This Scales into Full Project E
+## How This Scales into Full GSoC Project
 
 This mini demo directly evolves into:
 
-Multi-PR dashboard
-
-Reviewer intent classification
-
-Bot-aware analysis (CodeRabbit, Cursor, etc.)
-
-Advisory security triage extension
+- Multi-repository CI reliability dashboard
+- Cross-project flakiness patterns
+- CI workflow stability recommendations
+- Integration with Project E's readiness decisions (optional)
+- Historical trend visualization
 
 No rewrite required — only incremental extension.
+
+## Relationship to Project E
+
+**Project E focuses on:** Review state, blocking discussions, merge readiness  
+**This project focuses on:** CI signal trustworthiness, flakiness detection, confidence scoring
+
+**Complementary, not overlapping.** Both projects can coexist and optionally integrate.
 
 Why This Plan Is Low-Risk
 
