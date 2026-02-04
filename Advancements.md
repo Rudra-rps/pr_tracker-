@@ -15,3 +15,27 @@ Built the Historical CI Pattern Analysis module that tracks CI check outcomes ac
 - **UNSTABLE**: Consistent failures or low pass rate
 
 Each check receives a stability score (0-100) with transparent reasoning. The CLI now displays per-check reliability metrics including classification, score, historical run counts, and detailed explanations. Successfully tested with both real PRs and comprehensive mock data validating all detection scenarios.
+
+Day 4
+
+Implemented the CI Confidence Scoring Engine with deterministic 0-100 scoring for all CI checks. Built priority-based classification system: RELIABLE (90-100), STABLE (70-89), FLAKY (20-50), UNSTABLE (10-30), UNKNOWN (40-60). Enhanced flakiness detection with 35%+ transition rate threshold and recent trend analysis weighing consecutive passes/failures. Created comprehensive test suite with 13+ scenarios achieving 85%+ accuracy. Enhanced CLI output with visual indicators (✅🟢⚠️❌❔), detailed metrics (pass rate, trends, transitions), and summary statistics. Every score includes transparent, human-readable explanations. All logic is deterministic and explainable without ML/AI.
+
+Day 4
+
+Implemented the **CI Confidence Scoring Engine** - a deterministic, explainable scoring system that assigns confidence scores (0-100) to every CI check based on historical patterns. Created a dedicated `confidence.py` module with sophisticated classification logic:
+
+**Scoring Algorithm:**
+- **RELIABLE (90-100)**: Perfect or near-perfect track record with 10+ runs or 93%+ pass rate
+- **STABLE (70-89)**: Recent stability with 3-5+ consecutive passes
+- **FLAKY (20-50)**: Alternating pass/fail patterns detected (35%+ transition rate)
+- **UNSTABLE (10-30)**: Consistent failures or poor pass rate (<50%)
+- **UNKNOWN (40-60)**: Insufficient data (<3 runs)
+
+**Key Features:**
+- Deterministic priority-based classification (checks for RELIABLE → STABLE → FLAKY → UNSTABLE → UNKNOWN)
+- Transparent explanations for every score with detailed metrics (pass rate, consecutive trends, transitions)
+- Enhanced CLI output with visual indicators (✅ Reliable, 🟢 Stable, ⚠️ Flaky, ❌ Unstable, ❔ Unknown)
+- Summary statistics showing overall CI health across all checks
+- Comprehensive test suite validating 13+ scenarios with 85%+ accuracy
+
+Successfully integrated with Day 3's historical analysis system. The CLI now provides actionable confidence insights with clear reasoning for each classification, enabling informed merge decisions based on CI reliability patterns.

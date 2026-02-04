@@ -3,6 +3,8 @@ Historical CI Pattern Analysis Module
 Tracks CI check outcomes across commits to detect flakiness and stability patterns
 """
 
+from .confidence import generate_confidence_report
+
 def normalize_ci_outcome(check_run=None, status=None):
     """
     Normalize a CI check result into PASS, FAIL, or PENDING
@@ -196,22 +198,14 @@ def calculate_stability_metrics(outcomes):
 
 def analyze_ci_reliability(client, owner, repo, pr_number):
     """
-    Main function to analyze CI reliability for a PR
+    Main function to analyze CI reliability for a PR using the confidence scoring engine
     
     Returns:
-        Dict with per-check reliability metrics
+        Dict with per-check confidence scores and reliability metrics
     """
     check_history = build_ci_history(client, owner, repo, pr_number)
     
-    reliability_report = {}
-    
-    for check_name, outcomes in check_history.items():
-        metrics = calculate_stability_metrics(outcomes)
-        
-        reliability_report[check_name] = {
-            "current_status": outcomes[-1]["outcome"] if outcomes else "UNKNOWN",
-            "history_count": len(outcomes),
-            **metrics
-        }
+    # Use the Day 4 confidence scoring engine
+    reliability_report = generate_confidence_report(check_history)
     
     return reliability_report
