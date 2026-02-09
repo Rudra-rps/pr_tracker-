@@ -16,8 +16,11 @@ This project complements Project E (PR Readiness Dashboard) by analyzing **CI si
 - ✅ **Historical CI pattern analysis** (Day 3)
 - ✅ **Flaky check detection** (Day 3)
 - ✅ **Stability classification** (Day 3)
-- ✅ **Confidence scoring engine** (Day 4) ⭐ NEW
-- ✅ **Advanced confidence metrics with explanations** (Day 4) ⭐ NEW
+- ✅ **Confidence scoring engine** (Day 4)
+- ✅ **Advanced confidence metrics with explanations** (Day 4)
+- ✅ **Enhanced CLI with help, examples, and version commands** (Day 5) ⭐ NEW
+- ✅ **Professional output formatting with emojis** (Day 5) ⭐ NEW
+- ✅ **Comprehensive error handling and user feedback** (Day 5) ⭐ NEW
 - ✅ Validates input and handles API errors
 
 ## What this demo does NOT do (yet)
@@ -53,11 +56,24 @@ This project complements Project E (PR Readiness Dashboard) by analyzing **CI si
 
 ```bash
 python src/cli.py <github_pr_url>
+python src/cli.py --help
+python src/cli.py --examples
+python src/cli.py --version
 ```
 
-**Example:**
+**Examples:**
 ```bash
+# Analyze a PR
 python src/cli.py https://github.com/zulip/zulip/pull/37753
+
+# Show help
+python src/cli.py --help
+
+# Show usage examples
+python src/cli.py --examples
+
+# Show version
+python src/cli.py --version
 ```
 
 **Output:**

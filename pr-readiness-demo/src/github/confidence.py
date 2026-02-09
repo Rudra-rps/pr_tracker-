@@ -29,7 +29,10 @@ def calculate_confidence_score(outcomes):
                 "total_runs": 0,
                 "passes": 0,
                 "failures": 0,
-                "pass_rate": 0
+                "pass_rate": 0,
+                "consecutive_passes": 0,
+                "consecutive_failures": 0,
+                "flaky_transitions": 0
             }
         }
     
@@ -45,7 +48,10 @@ def calculate_confidence_score(outcomes):
                 "total_runs": len(outcomes),
                 "passes": 0,
                 "failures": 0,
-                "pass_rate": 0
+                "pass_rate": 0,
+                "consecutive_passes": 0,
+                "consecutive_failures": 0,
+                "flaky_transitions": 0
             }
         }
     
