@@ -454,7 +454,7 @@ Future considerations:
 ### Requirements
 
 - Python 3.10+
-- Dependencies: `requests`, `python-dotenv`, `pytest`
+- Dependencies: `requests`, `python-dotenv`
 - GitHub Personal Access Token
 - Internet connection
 

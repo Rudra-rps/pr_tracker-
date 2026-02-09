@@ -2,7 +2,7 @@
 
 **7-Day Pre-GSoC Feasibility Prototype for BLT GSoC 2026**
 
-[![Tests](https://img.shields.io/badge/tests-22%20passed-success)]()
+[![Tests](https://img.shields.io/badge/tests-19%20passed-success)]()
 [![Python](https://img.shields.io/badge/python-3.7%2B-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 
@@ -31,10 +31,7 @@ python pr-readiness-demo/src/cli.py https://github.com/OWASP-BLT/BLT/pull/5618
 
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - System design and data flow
 - **[FEATURES.md](FEATURES.md)** - Complete feature matrix (implemented vs planned)
-- **[EXAMPLES.md](EXAMPLES.md)** - CLI output examples and use cases
 - **[GSOC_PROPOSAL.md](GSOC_PROPOSAL.md)** - GSoC proposal integration guide
-- **[Plan.md](Plan.md)** - Day-by-day development roadmap
-- **[Advancements.md](Advancements.md)** - Daily progress log
 
 ## ✨ What This Demo Does
 
@@ -56,7 +53,7 @@ python pr-readiness-demo/src/cli.py https://github.com/OWASP-BLT/BLT/pull/5618
 | Professional output formatting | 5 | ✅ Complete |
 | Comprehensive error handling | 5-6 | ✅ Complete |
 | Rate limit detection | 6 | ✅ Complete |
-| Unit test suite (22+ tests) | 6 | ✅ Complete |
+| Unit test suite (19 tests) | 6 | ✅ Complete |
 | Complete documentation | 7 | ✅ Complete |
 
 ### Key Capabilities
@@ -74,20 +71,19 @@ python pr-readiness-demo/src/cli.py https://github.com/OWASP-BLT/BLT/pull/5618
 The project includes a comprehensive unit test suite:
 
 ```bash
-# Run all tests
-python src/run_tests.py
+# Run all tests (simple, one command)
+python src/test.py
 
-# Run individual test suites
-python src/tests/test_parser.py
-python src/tests/test_ci_aggregation.py
-python src/test_confidence.py
+# Or use the test runner
+python src/run_tests.py
 ```
 
 **Test Coverage:**
-- ✅ 10 parser tests (URL validation, edge cases)
-- ✅ 12 CI aggregation tests (state logic, priority handling)
-- ✅ 13+ confidence scoring scenarios (all classifications)
-- **Total: 22+ tests with 100% pass rate**
+- ✅ 6 parser tests (URL validation, edge cases)
+- ✅ 7 CI aggregation tests (state logic, priority handling)
+- ✅ 6 confidence scoring scenarios (all classifications)
+- **Total: 19 tests with 100% pass rate**
+- **No pytest required** - uses simple built-in assertions
 
 ## 🛡️ What This Demo Does NOT Do
 
